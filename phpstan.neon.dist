@@ -1,0 +1,17 @@
+parameters:
+    level: 8
+    phpVersion: 80200
+    paths:
+        - src
+        - tests
+        - workbench
+    tmpDir: build/phpstan
+    checkOctaneCompatibility: true
+    checkModelProperties: true
+    reportUnmatchedIgnoredErrors: false
+    # `**/` Is used for compatibility with PHPStorm which matches against copies, not the actual source files
+    ignoreErrors:
+        - identifier: trait.unused
+        -
+          identifier: method.notFound
+          path: **/tests/ArchTest.php

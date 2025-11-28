@@ -1,0 +1,84 @@
+{
+    "name": "pindab0ter/constrained-morph-to-for-laravel",
+    "description": "Constrained polymorphic relationships for Laravel Eloquent - limit morphTo relationships to specific model types",
+    "keywords": [
+        "laravel",
+        "eloquent",
+        "polymorphic",
+        "morphto",
+        "relationships",
+        "database"
+    ],
+    "homepage": "https://github.com/pindab0ter/constrained-morph-to-for-laravel",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Hans van Luttikhuizen-Ross",
+            "email": "pindab0ter@me.com",
+            "role": "Developer"
+        }
+    ],
+    "require": {
+        "php": "^8.2",
+        "illuminate/contracts": "^10.48.25||^11.16||^12.0"
+    },
+    "require-dev": {
+        "larastan/larastan": "^2.0||^3.0",
+        "laravel/pint": "^1.14",
+        "nunomaduro/collision": "^7.0||^8.8",
+        "orchestra/canvas": "^8.11.6||^9.0||^10.0",
+        "orchestra/testbench": "^8.0||^9.0||^10.0",
+        "pestphp/pest": "^2.0||^3.0||^4.0",
+        "pestphp/pest-plugin-arch": "^2.0||^3.0||^4.0",
+        "pestphp/pest-plugin-laravel": "^2.0||^3.0||^4.0",
+        "phpstan/extension-installer": "^1.4",
+        "phpstan/phpstan-deprecation-rules": "^1.0||^2.0",
+        "phpstan/phpstan-phpunit": "^1.0||^2.0",
+        "spatie/laravel-ray": "^1.35"
+    },
+    "autoload": {
+        "psr-4": {
+            "Pindab0ter\\ConstrainedMorphToForLaravel\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Pindab0ter\\ConstrainedMorphToForLaravel\\Tests\\": "tests/",
+            "Workbench\\App\\": "workbench/app/",
+            "Workbench\\Database\\Factories\\": "workbench/database/factories/",
+            "Workbench\\Database\\Seeders\\": "workbench/database/seeders/"
+        }
+    },
+    "scripts": {
+        "post-autoload-dump": [
+            "@clear",
+            "@prepare",
+            "@composer run prepare"
+        ],
+        "prepare": "@php vendor/bin/testbench package:discover --ansi",
+        "analyse": "vendor/bin/phpstan analyse",
+        "test": "vendor/bin/pest",
+        "test-coverage": "vendor/bin/pest --coverage",
+        "format": "vendor/bin/pint",
+        "clear": "@php vendor/bin/testbench package:purge-skeleton --ansi",
+        "build": "@php vendor/bin/testbench workbench:build --ansi",
+        "serve": [
+            "Composer\\Config::disableProcessTimeout",
+            "@build",
+            "@php vendor/bin/testbench serve --ansi"
+        ],
+        "lint": [
+            "@php vendor/bin/pint --ansi",
+            "@php vendor/bin/phpstan analyse --verbose --ansi"
+        ]
+    },
+    "config": {
+        "sort-packages": true,
+        "allow-plugins": {
+            "pestphp/pest-plugin": true,
+            "phpstan/extension-installer": true
+        }
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true
+}
