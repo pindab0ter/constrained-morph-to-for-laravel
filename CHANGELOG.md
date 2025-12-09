@@ -5,11 +5,17 @@ All notable changes to `constrained-morph-to-for-laravel` will be documented in 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [Unreleased](https://github.com/pindab0ter/constrained-morph-to-for-laravel/compare/v1.0.0...HEAD)
+## [Unreleased](https://github.com/pindab0ter/constrained-morph-to-for-laravel/compare/v1.1.0...HEAD)
 
 ### Added
 
 - Support for multiple allowed model types per relation
+
+## [v1.1.0](https://github.com/pindab0ter/constrained-morph-to-for-laravel/compare/v1.0.0...v1.1.0) - 2025-12-09
+
+Adds support for multiple allowed model types per relation
+
+**Full Changelog**: https://github.com/pindab0ter/constrained-morph-to-for-laravel/compare/v1.0.0...v1.1.0
 
 ## [v1.0.0](https://github.com/pindab0ter/constrained-morph-to-for-laravel/compare/v1.0.0...v1.0.0) - 2025-12-09
 
