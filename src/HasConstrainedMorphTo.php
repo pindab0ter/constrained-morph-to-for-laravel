@@ -13,14 +13,14 @@ use Illuminate\Database\Eloquent\Model;
 trait HasConstrainedMorphTo
 {
     /**
-     * Define a polymorphic, inverse one-to-one or many relationship, which only allows a specific type of model to be related.
+     * Define a polymorphic, inverse one-to-one or many relationship, which only allows specific types of models to be related.
      *
      * @template TRelatedModel of Model
      *
-     * @param  class-string<TRelatedModel>  $constrainedTo
+     * @param  class-string<TRelatedModel>|array<array-key, class-string<TRelatedModel>>  $constrainedTo
      * @return ConstrainedMorphTo<TRelatedModel, $this>
      */
-    public function constrainedMorphTo(string $constrainedTo, string $type, string $id, ?string $name = null, ?string $ownerKey = null): ConstrainedMorphTo
+    public function constrainedMorphTo(string|array $constrainedTo, string $type, string $id, ?string $name = null, ?string $ownerKey = null): ConstrainedMorphTo
     {
         // If no name is provided, the backtrace will be used to get the function name
         // since that is most likely the name of the polymorphic interface.
@@ -32,9 +32,10 @@ trait HasConstrainedMorphTo
         $class = $this->getAttributeFromArray($type);
 
         if (empty($class)) {
-            // Use the constrained type to create a properly typed query builder
+            // Use the first constrained type to create a properly typed query builder
+            $firstType = is_array($constrainedTo) ? $constrainedTo[0] : $constrainedTo;
             /** @var Builder<TRelatedModel> $query */
-            $query = $this->newRelatedInstance($constrainedTo)->newQuery()->setEagerLoads([]);
+            $query = $this->newRelatedInstance($firstType)->newQuery()->setEagerLoads([]);
         } else {
             // Assert that the morph class matches our template type TRelatedModel
             /** @phpstan-var class-string<TRelatedModel> $morphClass */

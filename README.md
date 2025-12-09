@@ -37,9 +37,20 @@ class Comment extends Model
     {
         return $this->constrainedMorphTo(Post::class, 'commentable_type', 'commentable_id');
     }
+
+    /** @return ConstrainedMorphTo<Post|Video, $this> */
+    public function commentable()
+    {
+        return $this->constrainedMorphTo(
+            [Post::class, Video::class], // Accept multiple types
+            'commentable_type',
+            'commentable_id'
+        );
+    }
 }
 
 $comment->post; // Returns a Post if the type matches, null if it doesn't
+$comment->commentable; // Returns a Post or Video if the type matches, null otherwise
 ```
 
 ## Requirements
@@ -105,6 +116,47 @@ composer require pindab0ter/constrained-morph-to-for-laravel
     $comment->commentable; // Returns null (constraint not met)
     ```
 
+### Multiple Allowed Types
+
+You can allow multiple model types in a single relationship by passing an array:
+
+```php
+/** @return ConstrainedMorphTo<Post|Video, $this> */
+public function commentable()
+{
+    return $this->constrainedMorphTo(
+        [Post::class, Video::class], // Accept both Post and Video models
+        'commentable_type',
+        'commentable_id'
+    );
+}
+```
+
+Now the relationship will accept either type:
+
+```php
+$post = Post::create([...]);
+$comment1 = Comment::create([
+    'commentable_id' => $post->id,
+    'commentable_type' => Post::class,
+]);
+$comment1->commentable; // Returns the Post instance
+
+$video = Video::create([...]);
+$comment2 = Comment::create([
+    'commentable_id' => $video->id,
+    'commentable_type' => Video::class,
+]);
+$comment2->commentable; // Returns the Video instance
+
+$image = Image::create([...]);
+$comment3 = Comment::create([
+    'commentable_id' => $image->id,
+    'commentable_type' => Image::class, // Not in allowed types!
+]);
+$comment3->commentable; // Returns null
+```
+
 ### Advanced Usage
 
 You can optionally specify the relationship name and owner key:
@@ -113,7 +165,7 @@ You can optionally specify the relationship name and owner key:
 public function commentable()
 {
     return $this->constrainedMorphTo(
-        Post::class,        // Constrained type
+        Post::class,        // Constrained type (or array of types)
         'commentable_type', // Type column
         'commentable_id',   // ID column
         'commentable',      // Relationship name (optional)

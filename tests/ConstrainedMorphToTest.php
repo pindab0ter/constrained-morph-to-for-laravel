@@ -81,6 +81,48 @@ it('returns correct models when eager loading', function () {
 it('returns null when type is empty', function () {
     $comment = Comment::create();
 
-    expect($comment->post)
-        ->toBeNull();
+    expect($comment->post)->toBeNull();
+});
+
+it('returns related model when one of multiple allowed types matches during lazy loading', function () {
+    $post = Post::create();
+    $video = Video::create();
+
+    $comment1 = Comment::create([
+        'commentable_id' => $post->id,
+        'commentable_type' => Post::class,
+    ]);
+
+    $comment2 = Comment::create([
+        'commentable_id' => $video->id,
+        'commentable_type' => Video::class,
+    ]);
+
+    expect($comment1->commentable)
+        ->toBeInstanceOf(Post::class)
+        ->and($comment2->commentable)
+        ->toBeInstanceOf(Video::class);
+});
+
+it('returns correct models when eager loading with multiple allowed types', function () {
+    $video = Video::create();
+    $post = Post::create();
+
+    $comment1 = Comment::create([
+        'commentable_id' => $post->id,
+        'commentable_type' => Post::class,
+    ]);
+
+    $comment2 = Comment::create([
+        'commentable_id' => $video->id,
+        'commentable_type' => Video::class,
+    ]);
+
+    /** @var Collection<int, Comment> $comments */
+    $comments = Comment::with('commentable')->get();
+
+    expect($comments->firstWhere('id', $comment1->id)?->commentable)
+        ->toBeInstanceOf(Post::class)
+        ->and($comments->firstWhere('id', $comment2->id)?->commentable)
+        ->toBeInstanceOf(Video::class);
 });

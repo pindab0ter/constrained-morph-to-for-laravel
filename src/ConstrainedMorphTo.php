@@ -17,8 +17,8 @@ use Illuminate\Database\Eloquent\Relations\MorphTo;
  */
 class ConstrainedMorphTo extends MorphTo
 {
-    /** @var class-string<TRelatedModel> */
-    protected readonly string $allowedType;
+    /** @var array<array-key, class-string<TRelatedModel>> */
+    protected readonly array $allowedTypes;
 
     /**
      * @param  Builder<TRelatedModel>  $query
@@ -27,19 +27,24 @@ class ConstrainedMorphTo extends MorphTo
      * @param  string|null  $ownerKey
      * @param  string  $type
      * @param  string  $relation
-     * @param  class-string<TRelatedModel>  $constrainedTo
+     * @param  class-string<TRelatedModel>|array<array-key, class-string<TRelatedModel>>  $constrainedTo
      */
-    public function __construct(Builder $query, $parent, $foreignKey, $ownerKey, $type, $relation, string $constrainedTo)
+    public function __construct(Builder $query, $parent, $foreignKey, $ownerKey, $type, $relation, string|array $constrainedTo)
     {
-        $this->allowedType = $constrainedTo;
+        $this->allowedTypes = is_array($constrainedTo) ? $constrainedTo : [$constrainedTo];
 
         parent::__construct($query, $parent, $foreignKey, $ownerKey, $type, $relation);
+    }
+
+    private function isAllowedType(string $type): bool
+    {
+        return in_array($type, $this->allowedTypes, strict: true);
     }
 
     protected function buildDictionary(EloquentCollection $models): void
     {
         /** @var EloquentCollection<array-key, TRelatedModel> $filteredModels */
-        $filteredModels = $models->filter(fn (Model $model) => $model->{$this->morphType} === $this->allowedType);
+        $filteredModels = $models->filter(fn (Model $model) => $this->isAllowedType($model->{$this->morphType}));
 
         parent::buildDictionary($filteredModels);
     }
@@ -47,7 +52,9 @@ class ConstrainedMorphTo extends MorphTo
     /** @return TRelatedModel|null */
     public function getResults(): ?Model
     {
-        if ($this->parent->{$this->morphType} !== $this->allowedType) {
+        $type = $this->parent->{$this->morphType};
+
+        if ($type === null || ! $this->isAllowedType($type)) {
             return null;
         }
 

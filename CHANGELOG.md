@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased](https://github.com/pindab0ter/constrained-morph-to-for-laravel/compare/v1.0.0...HEAD)
 
+### Added
+
+- Support for multiple allowed model types per relation
+
 ## [v1.0.0](https://github.com/pindab0ter/constrained-morph-to-for-laravel/compare/v1.0.0...v1.0.0) - 2025-12-09
 
 ### Added

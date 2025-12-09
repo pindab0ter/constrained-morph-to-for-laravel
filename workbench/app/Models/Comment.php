@@ -33,4 +33,14 @@ class Comment extends Model
     {
         return $this->constrainedMorphTo(Post::class, 'commentable_type', 'commentable_id');
     }
+
+    /** @return ConstrainedMorphTo<Post|Video, $this> */
+    public function commentable(): ConstrainedMorphTo
+    {
+        return $this->constrainedMorphTo(
+            [Post::class, Video::class],
+            'commentable_type',
+            'commentable_id'
+        );
+    }
 }
