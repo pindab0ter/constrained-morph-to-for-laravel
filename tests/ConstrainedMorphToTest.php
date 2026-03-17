@@ -7,6 +7,7 @@ declare(strict_types=1);
 namespace Pindab0ter\ConstrainedMorphToForLaravel;
 
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Database\Eloquent\Relations\Relation;
 use Workbench\App\Models\Comment;
 use Workbench\App\Models\Post;
 use Workbench\App\Models\Video;
@@ -125,4 +126,22 @@ it('returns correct models when eager loading with multiple allowed types', func
         ->toBeInstanceOf(Post::class)
         ->and($comments->firstWhere('id', $comment2->id)?->commentable)
         ->toBeInstanceOf(Video::class);
+});
+
+it('resolves morph map aliases to allowed types', function () {
+    Relation::enforceMorphMap([
+        'post' => Post::class,
+        'video' => Video::class,
+    ]);
+
+    $post = Post::create();
+
+    $comment = Comment::create([
+        'commentable_id' => $post->id,
+        'commentable_type' => 'post',
+    ]);
+
+    expect($comment->post)->toBeInstanceOf(Post::class);
+
+    Relation::morphMap([], merge: false);
 });

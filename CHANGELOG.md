@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased](https://github.com/pindab0ter/constrained-morph-to-for-laravel/compare/v1.1.0...HEAD)
 
+### Added
+
+- Morph map compatibility
+
 ## [v1.1.0](https://github.com/pindab0ter/constrained-morph-to-for-laravel/compare/v1.0.0...v1.1.0) - 2025-12-09
 
 ### Added

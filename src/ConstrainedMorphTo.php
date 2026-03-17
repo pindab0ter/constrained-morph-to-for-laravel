@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection as EloquentCollection;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
+use Illuminate\Database\Eloquent\Relations\Relation;
 
 /**
  * @template TRelatedModel of Model
@@ -38,7 +39,9 @@ class ConstrainedMorphTo extends MorphTo
 
     private function isAllowedType(string $type): bool
     {
-        return in_array($type, $this->allowedTypes, strict: true);
+        $resolvedType = Relation::getMorphedModel($type) ?? $type;
+
+        return in_array($resolvedType, $this->allowedTypes, strict: true);
     }
 
     protected function buildDictionary(EloquentCollection $models): void
