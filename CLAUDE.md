@@ -23,6 +23,12 @@ composer test-coverage # Tests with coverage report
 2. Create a GitHub release with tag `vX.Y.Z` and release name `vX.Y.Z`
 3. The `update-changelog` workflow commits the updated `CHANGELOG.md` automatically
 
+```bash
+gh release create vX.Y.Z --title "vX.Y.Z" --notes "<release body>"
+```
+
+Source the release body from the `[Unreleased]` section of `CHANGELOG.md`.
+
 The workflow passes the **release name** as the version heading and the **release body** verbatim into `CHANGELOG.md`. Write release notes in Keep a Changelog format so they land correctly.
 
 ### Keep a Changelog format
