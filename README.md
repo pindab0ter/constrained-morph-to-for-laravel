@@ -56,7 +56,7 @@ $comment->commentable; // Returns a Post or Video if the type matches, null othe
 ## Requirements
 
 - PHP 8.2+
-- Laravel 10.48+, 11.x, or 12.x
+- Laravel 10.48+, 11.x, 12.x, or 13.x
 
 ## Installation
 
