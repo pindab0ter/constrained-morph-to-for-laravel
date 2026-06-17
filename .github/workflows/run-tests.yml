@@ -21,9 +21,12 @@ jobs:
       fail-fast: true
       matrix:
         php: [8.4, 8.3]
-        laravel: ["^12.0", "^11.16", "^10.48.25"]
+        laravel: ["^13.0", "^12.0", "^11.16", "^10.48.25"]
         stability: [prefer-lowest, prefer-stable]
         include:
+          - laravel: "^13.0"
+            testbench: 11.*
+            larastan: 3.*
           - laravel: "^12.0"
             testbench: 10.*
             larastan: 3.*
