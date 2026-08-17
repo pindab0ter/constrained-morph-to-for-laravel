@@ -142,6 +142,4 @@ it('resolves morph map aliases to allowed types', function () {
     ]);
 
     expect($comment->post)->toBeInstanceOf(Post::class);
-
-    Relation::morphMap([], merge: false);
 });
