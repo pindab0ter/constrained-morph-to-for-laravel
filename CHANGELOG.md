@@ -5,7 +5,18 @@ All notable changes to `constrained-morph-to-for-laravel` will be documented in 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [Unreleased](https://github.com/pindab0ter/constrained-morph-to-for-laravel/compare/v1.3.0...HEAD)
+## [Unreleased](https://github.com/pindab0ter/constrained-morph-to-for-laravel/compare/v1.3.1...HEAD)
+
+### Changed
+
+- Updated GitHub Actions workflow dependencies (`actions/checkout` v7, `dependabot/fetch-metadata` v3.1.0)
+
+### Fixed
+
+- `whereMorphedTo()` and `orWhereMorphedTo()` now qualify the morph columns against the parent table
+  instead of the first constrained type, which previously produced an unknown-column error
+
+## [v1.3.1](https://github.com/pindab0ter/constrained-morph-to-for-laravel/compare/v1.3.0...v1.3.1) - 2026-08-17
 
 ### Changed
 
