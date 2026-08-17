@@ -22,6 +22,7 @@ composer test-coverage # Tests with coverage report
 1. Push commits to `main`
 2. Create a GitHub release with tag `vX.Y.Z` and release name `vX.Y.Z`
 3. The `update-changelog` workflow commits the updated `CHANGELOG.md` automatically
+4. The workflow inserts the release section but leaves the `[Unreleased]` entries in place; clear them in a follow-up commit
 
 ```bash
 gh release create vX.Y.Z --title "vX.Y.Z" --notes "<release body>"
