@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased](https://github.com/pindab0ter/constrained-morph-to-for-laravel/compare/v1.3.0...HEAD)
 
+### Changed
+
+- Updated GitHub Actions workflow dependencies (`actions/checkout` v7, `dependabot/fetch-metadata` v3.1.0)
+
 ### Fixed
 
 - `whereMorphedTo()` and `orWhereMorphedTo()` now qualify the morph columns against the parent table
