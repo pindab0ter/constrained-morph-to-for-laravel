@@ -26,16 +26,14 @@ trait HasConstrainedMorphTo
         // since that is most likely the name of the polymorphic interface.
         $name = $name ?: $this->guessBelongsToRelation();
 
-        // If the type value is null, it is probably safe to assume the relationship is being eagerly loading
-        // the relationship. In this case we will create a query from the constrained type since we know
-        // what type is allowed, and we need to remove any eager loads that may already be defined on a model.
+        // If the type value is null, it is probably safe to assume the relationship is being eagerly loaded.
+        // In this case we will create a query from the parent, and we need to remove any eager loads
+        // that may already be defined on a model.
         $class = $this->getAttributeFromArray($type);
 
         if (empty($class)) {
-            // Use the first constrained type to create a properly typed query builder
-            $firstType = is_array($constrainedTo) ? $constrainedTo[0] : $constrainedTo;
             /** @var Builder<TRelatedModel> $query */
-            $query = $this->newRelatedInstance($firstType)->newQuery()->setEagerLoads([]);
+            $query = $this->newQuery()->setEagerLoads([]);
         } else {
             // Assert that the morph class matches our template type TRelatedModel
             /** @phpstan-var class-string<TRelatedModel> $morphClass */

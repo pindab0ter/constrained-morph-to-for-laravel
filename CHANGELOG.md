@@ -7,6 +7,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased](https://github.com/pindab0ter/constrained-morph-to-for-laravel/compare/v1.3.0...HEAD)
 
+### Fixed
+
+- `whereMorphedTo()` and `orWhereMorphedTo()` now qualify the morph columns against the parent table
+  instead of the first constrained type, which previously produced an unknown-column error
+
 ## [v1.3.0](https://github.com/pindab0ter/constrained-morph-to-for-laravel/compare/v1.2.0...v1.3.0) - 2026-06-17
 
 ### Added
