@@ -37,8 +37,12 @@ class ConstrainedMorphTo extends MorphTo
         parent::__construct($query, $parent, $foreignKey, $ownerKey, $type, $relation);
     }
 
-    private function isAllowedType(string $type): bool
+    private function isAllowedType(?string $type): bool
     {
+        if ($type === null) {
+            return false;
+        }
+
         $resolvedType = Relation::getMorphedModel($type) ?? $type;
 
         return in_array($resolvedType, $this->allowedTypes, strict: true);
@@ -55,9 +59,7 @@ class ConstrainedMorphTo extends MorphTo
     /** @return TRelatedModel|null */
     public function getResults(): ?Model
     {
-        $type = $this->parent->{$this->morphType};
-
-        if ($type === null || ! $this->isAllowedType($type)) {
+        if (! $this->isAllowedType($this->parent->{$this->morphType})) {
             return null;
         }
 

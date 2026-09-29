@@ -85,6 +85,35 @@ it('returns null when type is empty', function () {
     expect($comment->post)->toBeNull();
 });
 
+it('returns null when type is empty during eager loading', function () {
+    $post = Post::create();
+
+    $comment1 = Comment::create([
+        'commentable_id' => $post->id,
+        'commentable_type' => Post::class,
+    ]);
+
+    $comment2 = Comment::create();
+
+    /** @var Collection<int, Comment> $comments */
+    $comments = Comment::with(['post', 'commentable'])->get();
+
+    expect($comments->firstWhere('id', $comment1->id)?->post)
+        ->toBeInstanceOf(Post::class)
+        ->and($comments->firstWhere('id', $comment2->id)?->post)
+        ->toBeNull()
+        ->and($comments->firstWhere('id', $comment2->id)?->commentable)
+        ->toBeNull();
+});
+
+it('returns null when type is empty during lazy eager loading', function () {
+    $comment = Comment::create();
+
+    $comments = Comment::all()->load('post');
+
+    expect($comments->firstWhere('id', $comment->id)?->post)->toBeNull();
+});
+
 it('returns related model when one of multiple allowed types matches during lazy loading', function () {
     $post = Post::create();
     $video = Video::create();
