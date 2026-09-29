@@ -7,6 +7,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased](https://github.com/pindab0ter/constrained-morph-to-for-laravel/compare/v1.3.1...HEAD)
 
+### Fixed
+
+- Eager loading a constrained morph relation (`with()` / `load()`) no longer throws a `TypeError` when the
+  morph type column is `null`; the relation now resolves to `null`
+
 ## [v1.3.1](https://github.com/pindab0ter/constrained-morph-to-for-laravel/compare/v1.3.0...v1.3.1) - 2026-08-17
 
 ### Changed
